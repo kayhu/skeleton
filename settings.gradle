@@ -1,0 +1,6 @@
+rootProject.name = 'skeleton'
+include 'api'
+include 'common'
+include 'persistence'
+include 'security'
+

@@ -1,0 +1,11 @@
+dependencies {
+    compile 'org.springframework:spring-webmvc',
+            'org.springframework.security:spring-security-core',
+            'javax.validation:validation-api',
+            'org.hibernate:hibernate-validator',
+            'redis.clients:jedis',
+            rootProject.ext.dependencies['redisson'],
+            rootProject.ext.dependencies['swagger-annotations']
+
+    compileOnly 'javax.servlet:javax.servlet-api'
+}
