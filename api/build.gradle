@@ -12,8 +12,8 @@ dependencies {
             'io.dropwizard.metrics:metrics-logback',
             rootProject.ext.dependencies['springfox-swagger2'],
             rootProject.ext.dependencies['springfox-swagger-ui'],
-            project(':persistence'),
             project(':common'),
+            project(':dao'),
             project(':security')
 
     providedCompile 'javax.servlet:javax.servlet-api',

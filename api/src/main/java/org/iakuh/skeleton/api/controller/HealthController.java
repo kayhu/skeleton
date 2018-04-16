@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class HealthController {
 
-    @ApiOperation(value = "检查服务状态", httpMethod = "GET")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
-    @RequestMapping(value = "/health", method = RequestMethod.GET)
-    public ResponseEntity health() {
-        log.debug("I'm fine!");
-        return new ResponseEntity(HttpStatus.OK);
-    }
+  @ApiOperation(value = "检查服务状态", httpMethod = "GET")
+  @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
+  @RequestMapping(value = "/health", method = RequestMethod.GET)
+  public ResponseEntity health() {
+    log.debug("I'm fine!");
+    return new ResponseEntity(HttpStatus.OK);
+  }
 }

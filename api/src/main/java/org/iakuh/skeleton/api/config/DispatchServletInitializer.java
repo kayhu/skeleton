@@ -1,43 +1,45 @@
 package org.iakuh.skeleton.api.config;
 
-import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
+import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class DispatchServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
-    @Override
-    protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{RootConfig.class};
-    }
+public class DispatchServletInitializer extends
+    AbstractAnnotationConfigDispatcherServletInitializer {
 
-    @Override
-    protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[]{ServletConfig.class};
-    }
+  @Override
+  protected Class<?>[] getRootConfigClasses() {
+    return new Class<?>[]{RootConfig.class};
+  }
 
-    @Override
-    protected String[] getServletMappings() {
-        return new String[]{"/"};
-    }
+  @Override
+  protected Class<?>[] getServletConfigClasses() {
+    return new Class<?>[]{ServletConfig.class};
+  }
 
-    @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-//        servletContext.addFilter("springSecurityFilterChain", DelegatingFilterProxy.class)
-//                .addMappingForUrlPatterns(null, false, "/*");
+  @Override
+  protected String[] getServletMappings() {
+    return new String[]{"/"};
+  }
 
-        servletContext.addFilter("characterEncodingFilter", new CharacterEncodingFilter("UTF-8"))
-                .addMappingForUrlPatterns(null, false, "/*");
+  @Override
+  public void onStartup(ServletContext servletContext) throws ServletException {
+    /*servletContext.addFilter("springSecurityFilterChain", DelegatingFilterProxy.class)
+        .addMappingForUrlPatterns(null, false, "*//*");*/
 
-        super.onStartup(servletContext);
-    }
+    servletContext.addFilter("characterEncodingFilter", new CharacterEncodingFilter("UTF-8"))
+        .addMappingForUrlPatterns(null, false, "/*");
 
-    @Override
-    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-        MultipartConfigElement multipartConfigElement = new MultipartConfigElement(null, 2097152, 4194304, 0);
-        registration.setMultipartConfig(multipartConfigElement);
-    }
+    super.onStartup(servletContext);
+  }
+
+  @Override
+  protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+    MultipartConfigElement multipartConfigElement = new MultipartConfigElement(null, 2097152,
+        4194304, 0);
+    registration.setMultipartConfig(multipartConfigElement);
+  }
 }

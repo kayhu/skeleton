@@ -37,10 +37,13 @@ ext {
 allprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
+    apply plugin: 'checkstyle'
     apply plugin: 'io.spring.dependency-management'
 
     group = 'org.iakuh'
     version = '1.0-SNAPSHOT'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
 
     compileJava.options.encoding = 'UTF-8'
     compileTestJava.options.encoding = 'UTF-8'
@@ -67,10 +70,13 @@ allprojects {
                 'com.google.guava:guava',
                 'commons-logging:commons-logging'
 
-        testCompile 'org.springframework:spring-test',
-                'junit:junit'
-//                rootProject.ext.dependencies['mockito-all'],
-//                rootProject.ext.dependencies['jmockit']
+        testCompile project(':test')
+    }
+
+    checkstyle.toolVersion = '8.9'
+    checkstyle {
+        ignoreFailures = false
+        configFile = file("${rootDir}/checkstyle/google_checks.xml")
     }
 }
 

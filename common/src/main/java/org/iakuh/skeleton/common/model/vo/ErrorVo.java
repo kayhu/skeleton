@@ -15,24 +15,24 @@ import org.iakuh.skeleton.common.model.BaseModel;
 @AllArgsConstructor
 @ToString(callSuper = true)
 public class ErrorVo extends BaseModel {
-    @ApiModelProperty("错误代码")
-    private String code;
-    @ApiModelProperty("错误描述")
-    private String message;
-    @ApiModelProperty("错误详情")
-    private String details;
 
-    private static final String SEPARATOR = ";";
+  private static final String SEPARATOR = ";";
+  @ApiModelProperty("错误代码")
+  private String code;
+  @ApiModelProperty("错误描述")
+  private String message;
+  @ApiModelProperty("错误详情")
+  private String details;
 
-    public void addDetail(String detail) {
-        if (!StringUtils.isBlank(details)) {
-            details = details + SEPARATOR + detail;
-        } else {
-            details = detail;
-        }
+  public void addDetail(String detail) {
+    if (!StringUtils.isBlank(details)) {
+      details = details + SEPARATOR + detail;
+    } else {
+      details = detail;
     }
+  }
 
-    public void clearDetails() {
-        details = "";
-    }
+  public void clearDetails() {
+    details = "";
+  }
 }

@@ -1,5 +1,8 @@
 package org.iakuh.skeleton.api.config;
 
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+
+import javax.sql.DataSource;
 import org.iakuh.skeleton.security.entry.BasicAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.EnvironmentAware;
@@ -12,10 +15,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-
-import javax.sql.DataSource;
 
 @Configuration
 @PropertySource("classpath:config/api.properties")
@@ -23,47 +23,60 @@ import javax.sql.DataSource;
 @Import(ServletConfig.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter implements EnvironmentAware {
 
-    @Autowired
-    private DataSource dataSource;
+  @Autowired
+  private DataSource dataSource;
 
-    @Autowired
-    private Environment env;
+  @Autowired
+  private Environment env;
 
-    @Autowired
-    private HandlerExceptionResolver handlerExceptionResolver;
+  @Autowired
+  private HandlerExceptionResolver handlerExceptionResolver;
 
-    @Override
-    public void setEnvironment(Environment environment) {
-        this.env = environment;
-    }
+  @Override
+  public void setEnvironment(Environment environment) {
+    this.env = environment;
+  }
 
-    @Bean
-    public BasicAuthenticationEntryPoint basicAuthenticationEntryPoint(HandlerExceptionResolver handlerExceptionResolver) {
-        BasicAuthenticationEntryPoint authenticationEntryPoint = new BasicAuthenticationEntryPoint();
-        authenticationEntryPoint.setHandlerExceptionResolver(handlerExceptionResolver);
-        authenticationEntryPoint.setRealmName(env.getProperty("realm.name"));
-        return authenticationEntryPoint;
-    }
+  @Bean
+  public BasicAuthenticationEntryPoint basicAuthEntryPoint(
+      HandlerExceptionResolver handlerExceptionResolver) {
+    BasicAuthenticationEntryPoint authenticationEntryPoint = new BasicAuthenticationEntryPoint();
+    authenticationEntryPoint.setHandlerExceptionResolver(handlerExceptionResolver);
+    authenticationEntryPoint.setRealmName(env.getProperty("realm.name"));
+    return authenticationEntryPoint;
+  }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource);
-    }
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.jdbcAuthentication().dataSource(dataSource);
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/documentation/**").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/v2/api-docs").permitAll()
-                .antMatchers("/health").permitAll()
-                .anyRequest().authenticated()
-//                .and().formLogin()
-//                .and().logout()
-                .and().httpBasic().authenticationEntryPoint(basicAuthenticationEntryPoint(handlerExceptionResolver))
-                // throw AccessDeniedException which will be handled in ExceptionController
-                .and().exceptionHandling().accessDeniedHandler((req, resp, ex) -> {throw ex;})
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().csrf().disable();
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests()
+        .antMatchers("/documentation/**").permitAll()
+        .antMatchers("/swagger-resources/**").permitAll()
+        .antMatchers("/v2/api-docs").permitAll()
+        .antMatchers("/health").permitAll()
+        .anyRequest().authenticated()
+        /*.and()
+        .formLogin()
+        .and()
+        .logout()*/
+        .and()
+        .httpBasic()
+        .authenticationEntryPoint(basicAuthEntryPoint(handlerExceptionResolver))
+        // throw AccessDeniedException which will be handled in ExceptionController
+        .and()
+        .exceptionHandling()
+        .accessDeniedHandler((req, resp, ex) -> {
+          throw ex;
+        })
+        .and()
+        .sessionManagement()
+        .sessionCreationPolicy(STATELESS)
+        .and()
+        .csrf()
+        .disable();
+  }
 }

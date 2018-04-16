@@ -15,11 +15,12 @@ import org.iakuh.skeleton.common.model.BaseModel;
 @NoArgsConstructor
 @ToString(callSuper = true)
 public class UserVo extends BaseModel {
-    @ApiModelProperty("用户编号")
-    private Long id;
-    @ApiModelProperty("用户名")
-    @NotBlank
-    private String username;
-    @ApiModelProperty("是否启用")
-    private Boolean enabled;
+
+  @ApiModelProperty("用户编号")
+  private Long id;
+  @ApiModelProperty("用户名")
+  @NotBlank
+  private String username;
+  @ApiModelProperty("是否启用")
+  private Boolean enabled;
 }
