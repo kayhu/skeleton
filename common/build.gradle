@@ -5,6 +5,8 @@ dependencies {
             'org.hibernate:hibernate-validator',
             'redis.clients:jedis',
             rootProject.ext.dependencies['redisson'],
+            rootProject.ext.dependencies['archaius-core'],
+            rootProject.ext.dependencies['archaius-zookeeper'],
             rootProject.ext.dependencies['swagger-annotations']
 
     compileOnly 'javax.servlet:javax.servlet-api'
