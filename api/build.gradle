@@ -17,5 +17,5 @@ dependencies {
             project(':security')
 
     providedCompile 'javax.servlet:javax.servlet-api',
-            'org.apache.tomcat:tomcat-catalina'
+            rootProject.ext.dependencies['tomcat-catalina']
 }

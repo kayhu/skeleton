@@ -5,10 +5,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
-public class BasicAuthenticationEntryPoint
-    extends org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint {
+public class BasicAuthEntryPoint extends BasicAuthenticationEntryPoint {
 
   private HandlerExceptionResolver handlerExceptionResolver;
 

@@ -7,13 +7,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("classpath:config/common.properties")
+@PropertySource("classpath:common-config.properties")
 public class ZooKeeperConfig {
 
+  @Value("${common.zookeeper.config.connect.string}")
+  private String connectString;
+
+  @Value("${common.zookeeper.config.root.path}")
+  private String rootPath;
+
   @Bean
-  public ZooKeeperGroup zookeeperConfig(
-      @Value("${zookeeper.config.connect.string}") String connectString,
-      @Value("${zookeeper.config.root.path}") String rootPath) {
+  public ZooKeeperGroup zookeeperConfig() {
     ZooKeeperGroup zooKeeperGroup = new ZooKeeperGroup();
     zooKeeperGroup.setConnectString(connectString);
     zooKeeperGroup.setRootPath(rootPath);

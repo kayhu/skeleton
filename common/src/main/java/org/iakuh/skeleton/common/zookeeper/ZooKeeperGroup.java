@@ -84,8 +84,10 @@ public class ZooKeeperGroup extends HashMap<String, Object> {
       this.loadProperties();
 
     } catch (InterruptedException e) {
-      log.error(e.getMessage(), e);
-      throw new RuntimeException(e.getMessage(), e);
+      if (!client.getZookeeperClient().isConnected()) {
+        log.error("Failed to initializing ZooKeeperGroup", e);
+        throw e;
+      }
     }
     log.debug("Initializing ZooKeeperGroup done");
   }

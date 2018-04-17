@@ -3,52 +3,46 @@ package org.iakuh.skeleton.api.config;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 import javax.sql.DataSource;
-import org.iakuh.skeleton.security.entry.BasicAuthenticationEntryPoint;
+import org.iakuh.skeleton.security.entry.BasicAuthEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.EnvironmentAware;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Configuration
-@PropertySource("classpath:config/api.properties")
+@PropertySource("classpath:api-config.properties")
 @EnableWebSecurity
-@Import(ServletConfig.class)
-public class SecurityConfig extends WebSecurityConfigurerAdapter implements EnvironmentAware {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+  @Value("${realm.name}")
+  private String realmName;
 
   @Autowired
   private DataSource dataSource;
 
   @Autowired
-  private Environment env;
-
-  @Autowired
   private HandlerExceptionResolver handlerExceptionResolver;
 
-  @Override
-  public void setEnvironment(Environment environment) {
-    this.env = environment;
-  }
-
   @Bean
-  public BasicAuthenticationEntryPoint basicAuthEntryPoint(
+  public BasicAuthEntryPoint basicAuthEntryPoint(
       HandlerExceptionResolver handlerExceptionResolver) {
-    BasicAuthenticationEntryPoint authenticationEntryPoint = new BasicAuthenticationEntryPoint();
-    authenticationEntryPoint.setHandlerExceptionResolver(handlerExceptionResolver);
-    authenticationEntryPoint.setRealmName(env.getProperty("realm.name"));
-    return authenticationEntryPoint;
+    BasicAuthEntryPoint basicAuthEntryPoint = new BasicAuthEntryPoint();
+    basicAuthEntryPoint.setHandlerExceptionResolver(handlerExceptionResolver);
+    basicAuthEntryPoint.setRealmName(realmName);
+    return basicAuthEntryPoint;
   }
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.jdbcAuthentication().dataSource(dataSource);
+    auth.jdbcAuthentication().dataSource(dataSource)
+        .passwordEncoder(new BCryptPasswordEncoder());
   }
 
   @Override

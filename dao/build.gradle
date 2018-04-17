@@ -3,9 +3,10 @@ configurations {
 }
 
 dependencies {
-    // mybatis
     compile 'org.springframework:spring-jdbc',
             'mysql:mysql-connector-java',
+
+            // mybatis
             rootProject.ext.dependencies['mybatis'],
             rootProject.ext.dependencies['mybatis-spring'],
             rootProject.ext.dependencies['pagehelper'],
@@ -25,7 +26,7 @@ dependencies {
 
 def getJdbcProperties = {
     def properties = new Properties()
-    file('src/main/resources/config/jdbc.properties').withInputStream { inputStream ->
+    file('src/main/resources/mbgenerator/mbgenerator.properties').withInputStream { inputStream ->
         properties.load(inputStream)
     }
     properties
@@ -51,7 +52,7 @@ task mybatisGenerator {
                 classpath: configurations.mybatisGenerator.asPath
         )
         ant.mbgenerator(overwrite: true,
-                configfile: 'src/main/resources/mbgenerator/generatorConfig.xml', verbose: true) {
+                configfile: 'src/main/resources/mbgenerator/mbgenerator.xml', verbose: true) {
             propertyset {
                 propertyref(name: 'targetProject')
                 propertyref(name: 'driverClass')

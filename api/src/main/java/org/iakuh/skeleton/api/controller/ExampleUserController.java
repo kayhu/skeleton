@@ -1,7 +1,5 @@
 package org.iakuh.skeleton.api.controller;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -24,10 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping(value = "/users",
-    consumes = APPLICATION_JSON_VALUE,
-    produces = APPLICATION_JSON_VALUE)
-public class UserController {
+@RequestMapping(value = "/users")
+public class ExampleUserController {
 
   @Autowired
   private UserService userService;

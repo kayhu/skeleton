@@ -30,7 +30,8 @@ public class DispatchServletInitializer extends
     /*servletContext.addFilter("springSecurityFilterChain", DelegatingFilterProxy.class)
         .addMappingForUrlPatterns(null, false, "*//*");*/
 
-    servletContext.addFilter("characterEncodingFilter", new CharacterEncodingFilter("UTF-8"))
+    servletContext
+        .addFilter("characterEncodingFilter", new CharacterEncodingFilter("UTF-8"))
         .addMappingForUrlPatterns(null, false, "/*");
 
     super.onStartup(servletContext);
@@ -38,8 +39,8 @@ public class DispatchServletInitializer extends
 
   @Override
   protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-    MultipartConfigElement multipartConfigElement = new MultipartConfigElement(null, 2097152,
-        4194304, 0);
+    MultipartConfigElement multipartConfigElement = new MultipartConfigElement(
+        null, 2097152, 4194304, 0);
     registration.setMultipartConfig(multipartConfigElement);
   }
 }

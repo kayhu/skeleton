@@ -6,6 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'io.spring.gradle:dependency-management-plugin:1.0.0.RELEASE'
+        classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2'
     }
 }
 
@@ -24,21 +25,21 @@ ext {
             // redis
             "redisson"            : "org.redisson:redisson:3.5.7",
 
-            // aspectj
-            "aspectjrt"           : "org.aspectj:aspectjrt:1.8.13",
-
             // swagger
             "springfox-swagger2"  : "io.springfox:springfox-swagger2:2.6.0",
             "springfox-swagger-ui": "io.springfox:springfox-swagger-ui:2.6.0",
-            "swagger-annotations" : "io.swagger:swagger-annotations:1.5.10"
+            "swagger-annotations" : "io.swagger:swagger-annotations:1.5.10",
+
+            // tomcat
+            "tomcat-catalina"     : "org.apache.tomcat:tomcat-catalina:8.5.15"
     ]
 }
 
-allprojects {
+subprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
-    apply plugin: 'checkstyle'
     apply plugin: 'io.spring.dependency-management'
+    apply from: "$rootDir/analysis.gradle"
 
     group = 'org.iakuh'
     version = '1.0-SNAPSHOT'
@@ -59,7 +60,7 @@ allprojects {
     dependencyManagement {
         imports {
             // https://docs.spring.io/platform/docs/Brussels-SR6/reference/htmlsingle/#appendix
-            mavenBom 'io.spring.platform:platform-bom:Brussels-SR6'
+            mavenBom 'io.spring.platform:platform-bom:Cairo-RELEASE'
         }
     }
 
@@ -71,12 +72,6 @@ allprojects {
                 'commons-logging:commons-logging'
 
         testCompile project(':test')
-    }
-
-    checkstyle.toolVersion = '8.9'
-    checkstyle {
-        ignoreFailures = false
-        configFile = file("${rootDir}/checkstyle/google_checks.xml")
     }
 }
 

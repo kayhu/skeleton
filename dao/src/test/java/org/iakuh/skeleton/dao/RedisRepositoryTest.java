@@ -23,7 +23,7 @@ public class RedisRepositoryTest extends BaseTest {
     user.setEmail("kay_hu@163.com");
     user.setTag(Arrays.asList("tall", "rich", "handsome"));
     userRedisRepository.save(user);
-    User findById = userRedisRepository.findOne(1L);
+    User findById = userRedisRepository.findById(1L).get();
     User findByUsername = userRedisRepository.findByUsername("kay_hu");
     User findByEmail = userRedisRepository.findByEmail("kay_hu@163.com");
   }

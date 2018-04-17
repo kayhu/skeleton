@@ -6,6 +6,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisPassword;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -15,22 +17,41 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 @ComponentScan("org.iakuh.skeleton.dao.redis")
-@PropertySource("classpath:config/redis.properties")
+@PropertySource("classpath:dao-config.properties")
 @EnableRedisRepositories("org.iakuh.skeleton.dao.redis.repository")
 public class RedisConfig {
 
+  @Value("${dao.redis.hostname}")
+  private String hostname;
+
+  @Value("${dao.redis.port}")
+  private int port;
+
+  @Value("${dao.redis.database}")
+  private int database;
+
+  @Value("${dao.redis.password}")
+  private String password;
+
+  @Bean
+  public RedisPassword redisPassword() {
+    return RedisPassword.of(password);
+  }
+
+  @Bean
+  public RedisStandaloneConfiguration redisStandaloneConfiguration() {
+    RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
+    configuration.setHostName(hostname);
+    configuration.setPort(port);
+    configuration.setDatabase(database);
+    configuration.setPassword(redisPassword());
+    return configuration;
+  }
+
   @Bean
   public RedisConnectionFactory redisConnectionFactory(
-      @Value("${redis.hostName}") String hostName,
-      @Value("${redis.port}") int port,
-      @Value("${redis.database}") int database,
-      @Value("${redis.password}") String password) {
-    JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
-    jedisConnectionFactory.setHostName(hostName);
-    jedisConnectionFactory.setPort(port);
-    jedisConnectionFactory.setDatabase(database);
-    jedisConnectionFactory.setPassword(password);
-    return jedisConnectionFactory;
+      RedisStandaloneConfiguration redisStandaloneConfiguration) {
+    return new JedisConnectionFactory(redisStandaloneConfiguration);
   }
 
   @Bean

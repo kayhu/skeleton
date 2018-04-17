@@ -58,7 +58,9 @@ CREATE TABLE group_authorities
   PRIMARY KEY (id)
 );
 
-INSERT INTO users (username, password, enabled) VALUES ('huk', 'Hk123456', TRUE);
+INSERT INTO users (username, password, enabled)
+VALUES ('huk', '$2a$10$twyJaPcoE2EhvQo4x2KbqOhcrK8hZgkVPkNlIQTV2pRx3JamFzwAi', TRUE);
 INSERT INTO authorities (username, authority) VALUES ('huk', 'ROLE_ADMIN');
-INSERT INTO users (username, password, enabled) VALUES ('huk3', 'Hk123456', TRUE);
+INSERT INTO users (username, password, enabled)
+VALUES ('huk3', '$2a$10$twyJaPcoE2EhvQo4x2KbqOhcrK8hZgkVPkNlIQTV2pRx3JamFzwAi', TRUE);
 INSERT INTO authorities (username, authority) VALUES ('huk3', 'ROLE_USER');

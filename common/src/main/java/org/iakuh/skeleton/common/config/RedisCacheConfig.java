@@ -15,22 +15,26 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("classpath:config/common.properties")
+@PropertySource("classpath:common-config.properties")
 public class RedisCacheConfig {
 
   public static final String CACHE_TTL_10S = "cache_ttl_10s";
   public static final String CACHE_TTL_30M = "cache_ttl_30m";
 
+  @Value("${common.redis.cache.single.address}")
+  private String address;
+
+  @Value("${common.redis.cache.single.database}")
+  private int database;
+
+  @Value("${common.redis.cache.single.password}")
+  private String password;
+
   @Bean
   @Profile("dev")
-  public Config singleServerConfig(@Value("${redis.cache.single.address}") String address,
-      @Value("${redis.cache.single.database}") int database,
-      @Value("${redis.cache.single.password}") String password) {
+  public Config singleServerConfig() {
     Config config = new Config();
-    config.useSingleServer()
-        .setAddress(address)
-        .setDatabase(database)
-        .setPassword(password);
+    config.useSingleServer().setAddress(address).setDatabase(database).setPassword(password);
     return config;
   }
 

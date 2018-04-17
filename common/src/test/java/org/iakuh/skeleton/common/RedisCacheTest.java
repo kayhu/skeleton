@@ -11,7 +11,6 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.test.context.ContextConfiguration;
 
-
 @ContextConfiguration(classes = RedisCacheConfig.class)
 public class RedisCacheTest extends BaseTest {
 

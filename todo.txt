@@ -1,3 +1,4 @@
 1. bean copy mapping
 2. handle AuthenticationException which thrown by filter
 3. metrics
+4. @PropertySource @Value do NOT work
