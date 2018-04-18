@@ -1,0 +1,46 @@
+package org.iakuh.skeleton.api.integration;
+
+import static java.util.Collections.singletonList;
+
+import feign.Param;
+import feign.RequestLine;
+import feign.auth.BasicAuthRequestInterceptor;
+import java.util.Map;
+import org.iakuh.skeleton.test.BaseTest;
+import org.iakuh.skeleton.thirdparty.feign.FeignClientBuilder;
+import org.iakuh.skeleton.thirdparty.feign.FeignClientConfig;
+import org.junit.Before;
+import org.junit.Test;
+
+public class ApiTest extends BaseTest {
+
+  private static Api api;
+
+  @Before
+  public void setup() {
+    FeignClientConfig<Api> clientConfig = new FeignClientConfig<>();
+    clientConfig.setApiType(Api.class);
+    clientConfig.setUrl("http://localhost:8080/api");
+    clientConfig.setRequestInterceptors(singletonList(
+        new BasicAuthRequestInterceptor("huk", "Hk123456")));
+    api = FeignClientBuilder.build(clientConfig);
+  }
+
+  @Test
+  public void testHealth() {
+    Map res = api.health();
+    assertEquals(0, res.size());
+  }
+}
+
+interface Api {
+
+  @RequestLine("GET /health")
+  Map<String, Integer> health();
+
+  @RequestLine("GET /users/{id}")
+  Map<String, ?> getUser(@Param("id") Long id);
+
+  @RequestLine("POST /users")
+  Map<String, ?> addUser(Map user);
+}

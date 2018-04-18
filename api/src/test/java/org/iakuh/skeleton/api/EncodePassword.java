@@ -1,3 +1,5 @@
+package org.iakuh.skeleton.api;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class EncodePassword {

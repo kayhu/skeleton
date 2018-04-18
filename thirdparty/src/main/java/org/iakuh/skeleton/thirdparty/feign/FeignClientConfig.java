@@ -23,7 +23,7 @@ import lombok.Setter;
 @Setter
 public class FeignClientConfig<T> {
 
-  private final Iterable<RequestInterceptor> requestInterceptors =
+  private Iterable<RequestInterceptor> requestInterceptors =
       Lists.newArrayList(new NoOpRequestInterceptor());
 
   private Level logLevel = Level.FULL;
