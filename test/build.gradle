@@ -1,6 +1,5 @@
 dependencies {
     compile 'org.springframework:spring-test',
-            'junit:junit'
-//            rootProject.ext.dependencies['mockito-all'],
-//            rootProject.ext.dependencies['jmockit']
+            'junit:junit',
+            "org.mockito:mockito-core"
 }

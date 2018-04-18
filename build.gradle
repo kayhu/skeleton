@@ -31,7 +31,12 @@ ext {
             "swagger-annotations" : "io.swagger:swagger-annotations:1.5.10",
 
             // tomcat
-            "tomcat-catalina"     : "org.apache.tomcat:tomcat-catalina:8.5.15"
+            "tomcat-catalina"     : "org.apache.tomcat:tomcat-catalina:8.5.15",
+
+            // feign
+            "feign-core"          : "io.github.openfeign:feign-core:9.6.0",
+            "feign-jackson"       : "io.github.openfeign:feign-jackson:9.6.0",
+            "feign-slf4j"         : "io.github.openfeign:feign-slf4j:9.6.0"
     ]
 }
 
@@ -69,9 +74,9 @@ subprojects {
                 'org.projectlombok:lombok',
                 'org.apache.commons:commons-lang3',
                 'com.google.guava:guava',
-                'commons-logging:commons-logging'
+                'io.dropwizard.metrics:metrics-logback'
 
-        testCompile project(':test')
+                testCompile project(':test')
     }
 }
 

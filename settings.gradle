@@ -4,4 +4,5 @@ include 'common'
 include 'dao'
 include 'security'
 include 'test'
+include 'thirdparty'
 

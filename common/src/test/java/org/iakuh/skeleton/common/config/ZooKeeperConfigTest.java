@@ -1,6 +1,5 @@
-package org.iakuh.skeleton.common;
+package org.iakuh.skeleton.common.config;
 
-import org.iakuh.skeleton.common.config.ZooKeeperConfig;
 import org.iakuh.skeleton.common.zookeeper.ZooKeeperGroup;
 import org.iakuh.skeleton.test.BaseTest;
 import org.junit.Test;
@@ -11,9 +10,10 @@ import org.springframework.test.context.ContextConfiguration;
 public class ZooKeeperConfigTest extends BaseTest {
 
   @Autowired
-  private ZooKeeperGroup zooKeeperGroup;
+  private ZooKeeperGroup zkGroup;
 
   @Test
-  public void testZooKeeperGroup() {
+  public void testZkGroup() {
+    assertNull(zkGroup.get("not.exist"));
   }
 }

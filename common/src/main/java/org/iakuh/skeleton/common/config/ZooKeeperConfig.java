@@ -17,10 +17,10 @@ public class ZooKeeperConfig {
   private String rootPath;
 
   @Bean
-  public ZooKeeperGroup zookeeperConfig() {
-    ZooKeeperGroup zooKeeperGroup = new ZooKeeperGroup();
-    zooKeeperGroup.setConnectString(connectString);
-    zooKeeperGroup.setRootPath(rootPath);
-    return zooKeeperGroup;
+  public ZooKeeperGroup zkGroup() {
+    ZooKeeperGroup zkGroup = new ZooKeeperGroup();
+    zkGroup.setConnectString(connectString);
+    zkGroup.setRootPath(rootPath);
+    return zkGroup;
   }
 }

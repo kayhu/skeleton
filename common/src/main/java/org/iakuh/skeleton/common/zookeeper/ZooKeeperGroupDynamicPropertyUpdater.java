@@ -7,11 +7,11 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.configuration.Configuration;
 
-public class CustomizedDynamicPropertyUpdater extends DynamicPropertyUpdater {
+public class ZooKeeperGroupDynamicPropertyUpdater extends DynamicPropertyUpdater {
 
   private ZooKeeperGroup zooKeeperGroup;
 
-  public CustomizedDynamicPropertyUpdater(ZooKeeperGroup zooKeeperGroup) {
+  public ZooKeeperGroupDynamicPropertyUpdater(ZooKeeperGroup zooKeeperGroup) {
     this.zooKeeperGroup = zooKeeperGroup;
   }
 

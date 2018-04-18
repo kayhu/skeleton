@@ -1,8 +1,7 @@
-package org.iakuh.skeleton.common;
+package org.iakuh.skeleton.common.config;
 
 import static org.iakuh.skeleton.common.config.RedisCacheConfig.CACHE_TTL_10S;
 
-import org.iakuh.skeleton.common.config.RedisCacheConfig;
 import org.iakuh.skeleton.test.BaseTest;
 import org.junit.After;
 import org.junit.Test;
@@ -12,7 +11,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.test.context.ContextConfiguration;
 
 @ContextConfiguration(classes = RedisCacheConfig.class)
-public class RedisCacheTest extends BaseTest {
+public class RedisCacheConfigTest extends BaseTest {
 
   @Autowired
   private CacheManager cacheManager;

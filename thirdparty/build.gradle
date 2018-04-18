@@ -1,0 +1,5 @@
+dependencies {
+    compile rootProject.ext.dependencies['feign-core'],
+            rootProject.ext.dependencies['feign-jackson'],
+            rootProject.ext.dependencies['feign-slf4j']
+}
