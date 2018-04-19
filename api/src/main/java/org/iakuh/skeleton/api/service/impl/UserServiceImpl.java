@@ -7,7 +7,6 @@ import org.iakuh.skeleton.common.model.vo.UserVo;
 import org.iakuh.skeleton.dao.rdb.entity.User;
 import org.iakuh.skeleton.dao.rdb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +16,6 @@ public class UserServiceImpl implements UserService {
   private UserRepository userRepository;
 
   @Override
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
   public UserVo getUserById(Long id) throws NotFoundException {
     User user = userRepository.selectByPrimaryKey(id);
 

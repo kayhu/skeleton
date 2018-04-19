@@ -1,4 +1,4 @@
-package org.iakuh.skeleton.dao;
+package org.iakuh.skeleton.dao.test;
 
 import org.iakuh.skeleton.dao.rdb.config.MybatisConfig;
 import org.iakuh.skeleton.dao.rdb.entity.User;

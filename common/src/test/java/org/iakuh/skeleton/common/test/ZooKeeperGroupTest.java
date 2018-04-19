@@ -1,4 +1,4 @@
-package org.iakuh.skeleton.common;
+package org.iakuh.skeleton.common.test;
 
 import java.io.IOException;
 import org.iakuh.skeleton.common.zookeeper.ZooKeeperGroup;

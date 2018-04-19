@@ -15,7 +15,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
     excludeFilters = {
         @ComponentScan.Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class)
     })
-@Import({CommonConfig.class, RedisConfig.class, MybatisConfig.class})
+@Import({
+    CommonConfig.class,
+    RedisConfig.class,
+    MybatisConfig.class})
 public class RootConfig {
 
 }

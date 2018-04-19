@@ -22,7 +22,7 @@ public class SwaggerConfig {
         .apiInfo(new ApiInfoBuilder()
             .title("Api Documentation")
             .description("This API uses HTTP Basic Authentication.\n\n"
-                + "http://localhost:8080/documentation/swagger-ui.html")
+                + "http://localhost:8080/api/documentation/swagger-ui.html")
             .build())
         .select()
         .apis(RequestHandlerSelectors.basePackage("org.iakuh.skeleton.api.controller"))

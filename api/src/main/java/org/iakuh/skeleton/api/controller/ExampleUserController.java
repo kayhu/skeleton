@@ -37,7 +37,7 @@ public class ExampleUserController {
 
   @ApiOperation(value = "添加用户信息", httpMethod = "POST")
   @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = UserVo.class)})
-  @RequestMapping(value = "/", method = RequestMethod.POST)
+  @RequestMapping(method = RequestMethod.POST)
   public ResponseEntity addUser(@Validated @RequestBody UserVo vo, Errors errors)
       throws ValidationException {
     if (errors.hasFieldErrors()) {
@@ -50,6 +50,6 @@ public class ExampleUserController {
   @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
   @RequestMapping(value = "/{id}/idCard", method = RequestMethod.POST)
   public ResponseEntity uploadIdCard(@PathVariable Long id, @RequestPart MultipartFile file) {
-    return new ResponseEntity<>(Collections.EMPTY_MAP, HttpStatus.OK);
+    return new ResponseEntity<>(Collections.emptyMap(), HttpStatus.OK);
   }
 }

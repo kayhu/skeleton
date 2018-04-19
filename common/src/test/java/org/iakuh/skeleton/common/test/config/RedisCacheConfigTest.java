@@ -1,7 +1,8 @@
-package org.iakuh.skeleton.common.config;
+package org.iakuh.skeleton.common.test.config;
 
 import static org.iakuh.skeleton.common.config.RedisCacheConfig.CACHE_TTL_10S;
 
+import org.iakuh.skeleton.common.config.RedisCacheConfig;
 import org.iakuh.skeleton.test.BaseTest;
 import org.junit.After;
 import org.junit.Test;

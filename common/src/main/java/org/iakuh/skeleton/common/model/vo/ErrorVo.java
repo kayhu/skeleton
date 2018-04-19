@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 import org.iakuh.skeleton.common.model.BaseModel;
 
@@ -13,7 +12,6 @@ import org.iakuh.skeleton.common.model.BaseModel;
 @Getter
 @Setter
 @AllArgsConstructor
-@ToString(callSuper = true)
 public class ErrorVo extends BaseModel {
 
   private static final String SEPARATOR = ";";

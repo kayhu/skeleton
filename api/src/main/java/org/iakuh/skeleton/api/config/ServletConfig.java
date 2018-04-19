@@ -8,7 +8,6 @@ import org.iakuh.skeleton.api.error.GlobalExceptionHandlerMapping;
 import org.iakuh.skeleton.common.error.GenericExceptionHandlerResolver;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -30,7 +29,6 @@ import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolv
         @ComponentScan.Filter(type = ANNOTATION, value = Controller.class),
         @ComponentScan.Filter(type = ANNOTATION, value = ControllerAdvice.class)
     })
-@Import(SwaggerConfig.class)
 public class ServletConfig extends WebMvcConfigurationSupport {
 
   private static final boolean jackson2Present =

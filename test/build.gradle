@@ -1,5 +1,6 @@
 dependencies {
-    compile 'org.springframework:spring-test',
-            'junit:junit',
-            "org.mockito:mockito-core"
+    compile 'junit:junit',
+            'org.springframework:spring-test',
+            'org.mockito:mockito-core',
+            'org.skyscreamer:jsonassert'
 }

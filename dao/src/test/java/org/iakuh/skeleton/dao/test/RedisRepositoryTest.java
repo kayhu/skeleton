@@ -1,4 +1,4 @@
-package org.iakuh.skeleton.dao;
+package org.iakuh.skeleton.dao.test;
 
 import java.util.Arrays;
 import org.iakuh.skeleton.dao.redis.config.RedisConfig;

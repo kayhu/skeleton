@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.validator.constraints.NotBlank;
 import org.iakuh.skeleton.common.model.BaseModel;
 
@@ -13,7 +12,6 @@ import org.iakuh.skeleton.common.model.BaseModel;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(callSuper = true)
 public class UserVo extends BaseModel {
 
   @ApiModelProperty("用户编号")

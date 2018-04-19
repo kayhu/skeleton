@@ -16,8 +16,8 @@ public class GenericExceptionHandlerResolver extends ExceptionHandlerExceptionRe
   private ExceptionHandlerMethodResolver exceptionHandlerMethodResolver;
 
   public GenericExceptionHandlerResolver() {
-    setOrder(
-        HIGHEST_PRECEDENCE); // to handle the error before Spring's DefaultHandlerExceptionResolver
+    // to handle the error before Spring's DefaultHandlerExceptionResolver
+    setOrder(HIGHEST_PRECEDENCE);
   }
 
   public void setExceptionHandlerMapping(ExceptionHandlerMapping exceptionHandlerMapping) {

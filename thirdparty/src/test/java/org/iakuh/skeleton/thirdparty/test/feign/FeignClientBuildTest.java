@@ -1,4 +1,4 @@
-package org.iakuh.skeleton.thirdparty.feign.test;
+package org.iakuh.skeleton.thirdparty.test.feign;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,12 +6,10 @@ import feign.Param;
 import feign.RequestLine;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import org.iakuh.skeleton.thirdparty.feign.FeignClientBuilder;
 import org.iakuh.skeleton.thirdparty.feign.FeignClientConfig;
 import org.junit.Test;
 
-@Slf4j
 public class FeignClientBuildTest {
 
   @Test
@@ -39,17 +37,18 @@ public class FeignClientBuildTest {
     Status echo = postmanEchoApi.echo(status);
     assertEquals(echo.getStatus(), status);
   }
+
+  @Getter
+  @Setter
+  static class Status {
+
+    private int status;
+  }
+
+  interface PostmanEchoApi {
+
+    @RequestLine("GET /status/{status}")
+    Status echo(@Param("status") int status);
+  }
 }
 
-@Getter
-@Setter
-class Status {
-
-  private int status;
-}
-
-interface PostmanEchoApi {
-
-  @RequestLine("GET /status/{status}")
-  Status echo(@Param("status") int status);
-}

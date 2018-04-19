@@ -1,5 +1,6 @@
-package org.iakuh.skeleton.common.config;
+package org.iakuh.skeleton.common.test.config;
 
+import org.iakuh.skeleton.common.config.ZooKeeperConfig;
 import org.iakuh.skeleton.common.zookeeper.ZooKeeperGroup;
 import org.iakuh.skeleton.test.BaseTest;
 import org.junit.Test;
