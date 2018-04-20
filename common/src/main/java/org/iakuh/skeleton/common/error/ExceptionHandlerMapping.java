@@ -34,6 +34,6 @@ public class ExceptionHandlerMapping {
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   @ExceptionHandler(RuntimeException.class)
   public ErrorVo onRuntimeException(RuntimeException e) {
-    return new ErrorVo(E_UNKNOWN_ERROR, e.getMessage(), null);
+    return new ErrorVo(E_UNKNOWN_ERROR, "System unknown error", e.getMessage());
   }
 }

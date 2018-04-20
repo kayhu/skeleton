@@ -93,4 +93,18 @@ public class ExceptionHandlerMappingTest {
             + "    \"details\": \"username should not be null\"\n"
             + "}"));
   }
+
+  @Test
+  public void testOnRuntimeException() throws Exception {
+    when(userService.getUserById(any()))
+        .thenThrow(new RuntimeException("Runtime exception error message."));
+
+    mockMvc.perform(get("/users/25"))
+        .andExpect(status().isInternalServerError())
+        .andExpect(content().json("{\n"
+            + "    \"code\": \"E_UNKNOWN_ERROR\",\n"
+            + "    \"message\": \"System unknown error\",\n"
+            + "    \"details\": \"Runtime exception error message.\"\n"
+            + "}"));
+  }
 }

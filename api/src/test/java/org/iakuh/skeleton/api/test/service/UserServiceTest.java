@@ -51,4 +51,10 @@ public class UserServiceTest extends BaseTest {
     when(userRepository.selectByPrimaryKey(1L)).thenReturn(null);
     userService.getUserById(1L);
   }
+
+  @Test
+  public void testAddUser() {
+    UserVo result = userService.addUser(new UserVo());
+    assertNotNull(result);
+  }
 }
