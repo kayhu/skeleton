@@ -1,8 +1,10 @@
 package org.iakuh.skeleton.api.config;
 
 import org.iakuh.skeleton.common.config.CommonConfig;
+import org.iakuh.skeleton.common.util.ApplicationContextUtil;
 import org.iakuh.skeleton.dao.rdb.config.MybatisConfig;
 import org.iakuh.skeleton.dao.redis.config.RedisConfig;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
@@ -21,4 +23,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
     MybatisConfig.class})
 public class RootConfig {
 
+  @Bean
+  public ApplicationContextUtil appCtxUtil() {
+    return new ApplicationContextUtil();
+  }
 }

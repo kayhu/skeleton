@@ -11,7 +11,7 @@ CREATE TABLE users
   COMMENT '用户名',
   password VARCHAR(256)        NOT NULL
   COMMENT '密码',
-  enabled  TINYINT(1)          NOT NULL DEFAULT 0
+  enabled  TINYINT(1)          NOT NULL
   COMMENT '是否启用',
   PRIMARY KEY (id)
 );

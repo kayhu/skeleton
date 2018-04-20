@@ -35,7 +35,7 @@ import org.springframework.web.context.WebApplicationContext;
     TransactionalTestExecutionListener.class,
     WithSecurityContextTestExecutionListener.class})
 @WebAppConfiguration
-public class SecurityConfigTest {
+public class SecurityExceptionHandlerMappingTest {
 
   @Autowired
   private WebApplicationContext context;
@@ -46,10 +46,10 @@ public class SecurityConfigTest {
   private MockMvc mockMvc;
 
   @Before
-  public void setup() {
+  public void setUp() {
     MockitoAnnotations.initMocks(this);
-    mockMvc = MockMvcBuilders.webAppContextSetup(context).addFilters(springSecurityFilterChain)
-        .build();
+    mockMvc = MockMvcBuilders.webAppContextSetup(context)
+        .addFilters(springSecurityFilterChain).build();
   }
 
   @Test

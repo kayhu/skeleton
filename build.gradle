@@ -1,3 +1,6 @@
+apply plugin: 'java'
+apply plugin: 'org.sonarqube'
+
 buildscript {
     repositories {
         mavenLocal()
@@ -77,7 +80,15 @@ subprojects {
                 'com.google.guava:guava',
                 'io.dropwizard.metrics:metrics-logback'
 
-                testCompile project(':test')
+        testCompile project(':test')
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.login", "5f039978c3f6e05112542f51388f394d2f25a5c4"
+        property "sonar.jacoco.reportPaths", "$rootProject.buildDir/jacoco/jacocoTest.exec"
     }
 }
 

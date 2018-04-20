@@ -31,7 +31,7 @@ public class ExampleUserControllerTest {
   private MockMvc mockMvc;
 
   @Before
-  public void setup() {
+  public void setUp() {
     MockitoAnnotations.initMocks(this);
     mockMvc = MockMvcBuilders.standaloneSetup(exampleUserController).build();
   }

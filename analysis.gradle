@@ -1,38 +1,28 @@
 apply plugin: 'checkstyle'
 apply plugin: 'jacoco'
-apply plugin: 'org.sonarqube'
 
 checkstyle {
     toolVersion = '8.9'
     ignoreFailures = false
-    configFile = file("${rootDir}/checkstyle/google_checks.xml")
+    configFile = file("$rootDir/checkstyle/google_checks.xml")
 }
 
 jacoco {
     toolVersion = '0.8.0'
-    reportsDir = file("$buildDir/jacoco")
+    reportsDir = file("$buildDir/reports/jacoco")
 }
 
 jacocoTestReport {
     reports {
         xml.enabled false
         csv.enabled false
-        html.destination file("$buildDir/jacoco/html")
+        html.destination file("$buildDir/reports/jacoco")
     }
 }
 
 test {
     jacoco {
-        append = false
-        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
-    }
-}
-
-sonarqube {
-    properties {
-        property "sonar.host.url", "http://localhost:9000"
-        property "sonar.login", "5f039978c3f6e05112542f51388f394d2f25a5c4"
-        property "sonar.jacoco.reportPaths", "$buildDir/jacoco/jacocoTest.exec"
-//            property "sonar.exclusions", "**/*Generated.java"
+        append = true
+        destinationFile = file("$rootProject.buildDir/jacoco/jacocoTest.exec")
     }
 }

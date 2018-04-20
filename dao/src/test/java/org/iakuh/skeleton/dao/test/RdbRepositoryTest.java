@@ -20,11 +20,14 @@ public class RdbRepositoryTest extends BaseTest {
 
   @Test
   public void testRdbRepository() {
-    final String username = "iakuh";
+    final String username = "tester";
     User user = new User();
     user.setUsername(username);
     user.setPassword("P@ssw0rd");
-    user = userRepository.insertSelective(user);
+    user.setEnabled(true);
+    user = userRepository.insert(user);
     assertNotNull(user.getId());
+    assertTrue(userRepository.selectByPrimaryKey(user.getId()).getEnabled());
+    System.out.println(user.toString());
   }
 }

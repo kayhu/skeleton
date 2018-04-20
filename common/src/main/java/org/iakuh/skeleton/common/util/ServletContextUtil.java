@@ -1,4 +1,4 @@
-package org.iakuh.skeleton.api.util;
+package org.iakuh.skeleton.common.util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -17,7 +17,7 @@ public class ApiTest extends BaseTest {
   private static Api api;
 
   @Before
-  public void setup() {
+  public void setUp() {
     FeignClientConfig<Api> clientConfig = new FeignClientConfig<>();
     clientConfig.setApiType(Api.class);
     clientConfig.setUrl("http://localhost:8080/api");

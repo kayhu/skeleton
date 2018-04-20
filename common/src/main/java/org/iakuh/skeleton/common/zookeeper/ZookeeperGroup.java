@@ -22,7 +22,7 @@ import org.springframework.util.Assert;
 
 @Setter
 @Slf4j
-public class ZooKeeperGroup extends HashMap<String, Object> {
+public class ZookeeperGroup extends HashMap<String, Object> {
 
   private static final int DEFAULT_SESSION_TIMEOUT_MS = 60 * 1000;
   private static final int DEFAULT_CONNECTION_TIMEOUT_MS = 15 * 1000;
@@ -46,63 +46,55 @@ public class ZooKeeperGroup extends HashMap<String, Object> {
 
   @PostConstruct
   public void init() throws Exception {
-    try {
-      Assert.notNull(connectString, "connectionString is null");
-      Assert.notNull(rootPath, "rootPath is null");
+    Assert.notNull(connectString, "connectionString is null");
+    Assert.notNull(rootPath, "rootPath is null");
 
-      log.debug("Initializing ZooKeeperGroup");
-      log.debug("connectString: {}", connectString);
-      log.debug("rootPath: {}", rootPath);
-      log.debug("sessionTimeoutMs: {}", sessionTimeoutMs);
-      log.debug("connectionTimeoutMs: {}", connectionTimeoutMs);
-      log.debug("baseSleepTimeMs: {}", baseSleepTimeMs);
-      log.debug("maxRetries: {}", maxRetries);
+    log.debug("Initializing ZookeeperGroup");
+    log.debug("connectString: {}", connectString);
+    log.debug("rootPath: {}", rootPath);
+    log.debug("sessionTimeoutMs: {}", sessionTimeoutMs);
+    log.debug("connectionTimeoutMs: {}", connectionTimeoutMs);
+    log.debug("baseSleepTimeMs: {}", baseSleepTimeMs);
+    log.debug("maxRetries: {}", maxRetries);
 
-      client = CuratorFrameworkFactory.builder()
-          .connectString(connectString)
-          .sessionTimeoutMs(sessionTimeoutMs)
-          .connectionTimeoutMs(connectionTimeoutMs)
-          .retryPolicy(new ExponentialBackoffRetry(baseSleepTimeMs, maxRetries))
-          .build();
+    client = CuratorFrameworkFactory.builder()
+        .connectString(connectString)
+        .sessionTimeoutMs(sessionTimeoutMs)
+        .connectionTimeoutMs(connectionTimeoutMs)
+        .retryPolicy(new ExponentialBackoffRetry(baseSleepTimeMs, maxRetries))
+        .build();
 
-      client.start();
+    client.start();
 
-      client.getZookeeperClient().blockUntilConnectedOrTimedOut();
+    client.getZookeeperClient().blockUntilConnectedOrTimedOut();
 
-      ZooKeeperConfigurationSource zkCfgSrc =
-          new ZooKeeperConfigurationSource(client, rootPath);
+    ZooKeeperConfigurationSource zkCfgSrc =
+        new ZooKeeperConfigurationSource(client, rootPath);
 
-      // A customized dynamic update for ZooKeeperGroup
-      ZooKeeperGroupDynamicPropertyUpdater updater =
-          new ZooKeeperGroupDynamicPropertyUpdater(this);
+    // A customized dynamic update for ZookeeperGroup
+    CustomizedDynamicPropertyUpdater updater =
+        new CustomizedDynamicPropertyUpdater(this);
 
-      DynamicWatchedConfiguration updateListener =
-          new DynamicWatchedConfiguration(zkCfgSrc, false, updater);
+    DynamicWatchedConfiguration updateListener =
+        new DynamicWatchedConfiguration(zkCfgSrc, false, updater);
 
-      zkCfgSrc.addUpdateListener(updateListener);
+    zkCfgSrc.addUpdateListener(updateListener);
 
-      zkCfgSrc.start();
+    zkCfgSrc.start();
 
-      // load properties file last
-      this.loadProperties();
-
-    } catch (InterruptedException e) {
-      if (!client.getZookeeperClient().isConnected()) {
-        log.error("Failed to initializing ZooKeeperGroup", e);
-        throw e;
-      }
-    }
-    log.debug("Initializing ZooKeeperGroup done");
+    // load properties file last
+    this.loadProperties();
+    log.debug("Initializing ZookeeperGroup done");
   }
 
   @PreDestroy
   public void destroy() {
-    log.debug("Destroy ZooKeeperGroup");
+    log.debug("Destroy ZookeeperGroup");
     if (client != null && client.getState().equals(CuratorFrameworkState.STARTED)) {
       client.close();
       client = null;
     }
-    log.debug("Destroy ZooKeeperGroup done");
+    log.debug("Destroy ZookeeperGroup done");
   }
 
   private void loadProperties() throws IOException {

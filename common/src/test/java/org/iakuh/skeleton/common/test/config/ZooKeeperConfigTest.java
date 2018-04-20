@@ -1,7 +1,7 @@
 package org.iakuh.skeleton.common.test.config;
 
 import org.iakuh.skeleton.common.config.ZooKeeperConfig;
-import org.iakuh.skeleton.common.zookeeper.ZooKeeperGroup;
+import org.iakuh.skeleton.common.zookeeper.ZookeeperGroup;
 import org.iakuh.skeleton.test.BaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 public class ZooKeeperConfigTest extends BaseTest {
 
   @Autowired
-  private ZooKeeperGroup zkGroup;
+  private ZookeeperGroup zkGroup;
 
   @Test
   public void testZkGroup() {

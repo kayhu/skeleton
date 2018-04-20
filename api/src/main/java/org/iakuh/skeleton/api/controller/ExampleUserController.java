@@ -11,7 +11,7 @@ import org.iakuh.skeleton.common.model.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
+import org.springframework.validation.AbstractErrors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,7 +38,7 @@ public class ExampleUserController {
   @ApiOperation(value = "添加用户信息", httpMethod = "POST")
   @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = UserVo.class)})
   @RequestMapping(method = RequestMethod.POST)
-  public ResponseEntity addUser(@Validated @RequestBody UserVo vo, Errors errors)
+  public ResponseEntity addUser(@Validated @RequestBody UserVo vo, AbstractErrors errors)
       throws ValidationException {
     if (errors.hasFieldErrors()) {
       throw new ValidationException(errors);

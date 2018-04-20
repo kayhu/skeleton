@@ -31,7 +31,7 @@ import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolv
     })
 public class ServletConfig extends WebMvcConfigurationSupport {
 
-  private static final boolean jackson2Present =
+  private static final boolean JACKSON2_PRESENT =
       ClassUtils.isPresent("com.fasterxml.jackson.databind.ObjectMapper",
           WebMvcConfigurationSupport.class.getClassLoader())
           && ClassUtils.isPresent("com.fasterxml.jackson.core.JsonGenerator",
@@ -57,7 +57,7 @@ public class ServletConfig extends WebMvcConfigurationSupport {
     exHandlerResolver.setMessageConverters(getMessageConverters());
     exHandlerResolver.setCustomArgumentResolvers(getArgumentResolvers());
     exHandlerResolver.setCustomReturnValueHandlers(getReturnValueHandlers());
-    if (jackson2Present) {
+    if (JACKSON2_PRESENT) {
       exHandlerResolver.setResponseBodyAdvice(
           Collections.singletonList(new JsonViewResponseBodyAdvice()));
     }

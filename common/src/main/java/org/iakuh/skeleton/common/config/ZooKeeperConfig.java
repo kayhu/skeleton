@@ -1,6 +1,6 @@
 package org.iakuh.skeleton.common.config;
 
-import org.iakuh.skeleton.common.zookeeper.ZooKeeperGroup;
+import org.iakuh.skeleton.common.zookeeper.ZookeeperGroup;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +17,8 @@ public class ZooKeeperConfig {
   private String rootPath;
 
   @Bean
-  public ZooKeeperGroup zkGroup() {
-    ZooKeeperGroup zkGroup = new ZooKeeperGroup();
+  public ZookeeperGroup zkGroup() {
+    ZookeeperGroup zkGroup = new ZookeeperGroup();
     zkGroup.setConnectString(connectString);
     zkGroup.setRootPath(rootPath);
     return zkGroup;

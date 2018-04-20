@@ -38,7 +38,9 @@
     </javaClientGenerator>
 
     <!-- sql占位符，表示所有的表 -->
-    <table domainObjectName="User" tableName="users">
+    <table domainObjectName="User" tableName="users"
+      enableCountByExample="false" enableDeleteByExample="false"
+      enableSelectByExample="false" enableUpdateByExample="false">
       <generatedKey column="id" identity="true" sqlStatement="Mysql"/>
     </table>
   </context>
