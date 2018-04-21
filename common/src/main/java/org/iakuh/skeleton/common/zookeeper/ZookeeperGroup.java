@@ -1,43 +1,43 @@
 package org.iakuh.skeleton.common.zookeeper;
 
 import com.netflix.config.DynamicWatchedConfiguration;
+import com.netflix.config.WatchedUpdateListener;
 import com.netflix.config.source.ZooKeeperConfigurationSource;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.springframework.core.io.Resource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.util.Assert;
 
 @Setter
 @Slf4j
-public class ZookeeperGroup extends HashMap<String, Object> {
+public class ZookeeperGroup extends ConcurrentHashMap<String, Object> {
 
   private static final int DEFAULT_SESSION_TIMEOUT_MS = 60 * 1000;
   private static final int DEFAULT_CONNECTION_TIMEOUT_MS = 15 * 1000;
   private static final int DEFAULT_BASE_SLEEP_TIME_MS = 3 * 1000;
   private static final int DEFAULT_MAX_RETRIES = 10;
 
+  private String location;
+
   @Setter(AccessLevel.NONE)
-  private CuratorFramework client;
+  private transient CuratorFramework client;
 
   private String connectString;
   private String rootPath;
-  private Resource location;
-  private String fileEncoding;
-  // If overwrite zookeeper config by properties file, default false.
-  private boolean overwrite = false;
+  private boolean ignoreDeletesFromSource = false;
 
   private int sessionTimeoutMs = DEFAULT_SESSION_TIMEOUT_MS;
   private int connectionTimeoutMs = DEFAULT_CONNECTION_TIMEOUT_MS;
@@ -46,16 +46,52 @@ public class ZookeeperGroup extends HashMap<String, Object> {
 
   @PostConstruct
   public void init() throws Exception {
-    Assert.notNull(connectString, "connectionString is null");
-    Assert.notNull(rootPath, "rootPath is null");
+    log.info("Initializing ZookeeperGroup started");
+    if (!StringUtils.isBlank(location)) {
+      loadProperties();
+      return;
+    } else {
+      loadZookeeper();
+    }
+    log.info("Initializing ZookeeperGroup finished");
+  }
 
-    log.debug("Initializing ZookeeperGroup");
-    log.debug("connectString: {}", connectString);
-    log.debug("rootPath: {}", rootPath);
-    log.debug("sessionTimeoutMs: {}", sessionTimeoutMs);
-    log.debug("connectionTimeoutMs: {}", connectionTimeoutMs);
-    log.debug("baseSleepTimeMs: {}", baseSleepTimeMs);
-    log.debug("maxRetries: {}", maxRetries);
+  @PreDestroy
+  public void destroy() {
+    log.info("Destroy ZookeeperGroup started");
+    if (client != null && client.getState().equals(CuratorFrameworkState.STARTED)) {
+      client.close();
+      client = null;
+    }
+    log.info("Destroy ZookeeperGroup finished");
+  }
+
+  private void loadProperties() throws IOException {
+    Assert.notNull(location, "location cannot be null");
+    
+    log.info("Loading properties file {}", location);
+
+    ClassPathResource resource = new ClassPathResource(location);
+
+    Properties properties = PropertiesLoaderUtils
+        .loadProperties(new EncodedResource(resource));
+
+    properties.stringPropertyNames().stream()
+        .forEach(key -> this.put(key, properties.getProperty(key)));
+
+    log.info("Loading properties file finished");
+  }
+  
+  private void loadZookeeper() throws Exception {
+    Assert.notNull(connectString, "connectionString cannot be null");
+    Assert.notNull(rootPath, "rootPath cannot be null");
+
+    log.info("connectString: {}", connectString);
+    log.info("rootPath: {}", rootPath);
+    log.info("sessionTimeoutMs: {}", sessionTimeoutMs);
+    log.info("connectionTimeoutMs: {}", connectionTimeoutMs);
+    log.info("baseSleepTimeMs: {}", baseSleepTimeMs);
+    log.info("maxRetries: {}", maxRetries);
 
     client = CuratorFrameworkFactory.builder()
         .connectString(connectString)
@@ -65,55 +101,17 @@ public class ZookeeperGroup extends HashMap<String, Object> {
         .build();
 
     client.start();
-
     client.getZookeeperClient().blockUntilConnectedOrTimedOut();
 
-    ZooKeeperConfigurationSource zkCfgSrc =
-        new ZooKeeperConfigurationSource(client, rootPath);
+    ZooKeeperConfigurationSource source = new ZooKeeperConfigurationSource(client, rootPath);
+    source.start();
 
     // A customized dynamic update for ZookeeperGroup
-    CustomizedDynamicPropertyUpdater updater =
-        new CustomizedDynamicPropertyUpdater(this);
+    CustomizedDynamicPropertyUpdater updater = new CustomizedDynamicPropertyUpdater(this);
 
-    DynamicWatchedConfiguration updateListener =
-        new DynamicWatchedConfiguration(zkCfgSrc, false, updater);
+    WatchedUpdateListener listener = new DynamicWatchedConfiguration(
+        source, ignoreDeletesFromSource, updater);
 
-    zkCfgSrc.addUpdateListener(updateListener);
-
-    zkCfgSrc.start();
-
-    // load properties file last
-    this.loadProperties();
-    log.debug("Initializing ZookeeperGroup done");
-  }
-
-  @PreDestroy
-  public void destroy() {
-    log.debug("Destroy ZookeeperGroup");
-    if (client != null && client.getState().equals(CuratorFrameworkState.STARTED)) {
-      client.close();
-      client = null;
-    }
-    log.debug("Destroy ZookeeperGroup done");
-  }
-
-  private void loadProperties() throws IOException {
-    if (location == null) {
-      return;
-    }
-
-    log.debug("Loading from properties file {}, overwrite {}", location, overwrite);
-
-    Properties properties = PropertiesLoaderUtils.loadProperties(
-        new EncodedResource(location, this.fileEncoding));
-
-    for (Enumeration<?> e = properties.propertyNames(); e.hasMoreElements(); ) {
-      String key = (String) e.nextElement();
-      if (overwrite) {
-        this.put(key, properties.getProperty(key));
-      } else {
-        this.putIfAbsent(key, properties.getProperty(key));
-      }
-    }
+    source.addUpdateListener(listener);
   }
 }

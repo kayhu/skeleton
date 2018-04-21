@@ -75,7 +75,7 @@ public class MybatisConfig implements EnvironmentAware {
   }
 
   @Bean
-  public MapperScannerConfigurer MapperScannerConfigurer() {
+  public MapperScannerConfigurer mapperScannerConfigurer() {
     MapperScannerConfigurer msc = new MapperScannerConfigurer();
     msc.setBasePackage(env.getProperty("dao.mybatis.mapper.package"));
     msc.setSqlSessionFactoryBeanName("sqlSessionFactoryBean");

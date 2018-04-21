@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @PropertySource("classpath:common-config.properties")
-public class ZooKeeperConfig {
+public class ZookeeperConfig {
 
   @Value("${common.zookeeper.config.connect.string}")
   private String connectString;

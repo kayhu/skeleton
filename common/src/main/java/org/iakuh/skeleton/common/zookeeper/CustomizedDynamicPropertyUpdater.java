@@ -2,9 +2,7 @@ package org.iakuh.skeleton.common.zookeeper;
 
 import com.netflix.config.DynamicPropertyUpdater;
 import com.netflix.config.WatchedUpdateResult;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import org.apache.commons.configuration.Configuration;
 
 public class CustomizedDynamicPropertyUpdater extends DynamicPropertyUpdater {
@@ -18,53 +16,44 @@ public class CustomizedDynamicPropertyUpdater extends DynamicPropertyUpdater {
   @Override
   public void updateProperties(WatchedUpdateResult result, Configuration config,
       boolean ignoreDeletesFromSource) {
-    this.updateZooKeeperGroup(result, ignoreDeletesFromSource);
+    this.updateZookeeperGroup(result, ignoreDeletesFromSource);
     super.updateProperties(result, config, ignoreDeletesFromSource);
   }
 
-  private void updateZooKeeperGroup(WatchedUpdateResult result, boolean ignoreDeletesFromSource) {
+  private void updateZookeeperGroup(WatchedUpdateResult result, boolean ignoreDeletesFromSource) {
     if (result == null || !result.hasChanges()) {
       return;
     }
 
     if (!result.isIncremental()) {
       Map<String, Object> complete = result.getComplete();
-      if (complete == null) {
-        return;
-      }
-      for (Map.Entry<String, Object> entry : complete.entrySet()) {
-        zookeeperGroup.put(entry.getKey(), entry.getValue());
-      }
-      if (!ignoreDeletesFromSource) {
-        Set<String> existingKeys = new HashSet<>();
-        existingKeys.addAll(zookeeperGroup.keySet());
-        for (String key : existingKeys) {
-          if (!complete.containsKey(key)) {
-            zookeeperGroup.remove(key);
-          }
-        }
+      addOrUpdate(complete);
+
+      if (complete != null && !ignoreDeletesFromSource) {
+        zookeeperGroup.keySet().stream()
+            .filter(key -> !complete.containsKey(key))
+            .forEach(this::delete);
       }
     } else {
       Map<String, Object> added = result.getAdded();
-      if (added != null) {
-        for (Map.Entry<String, Object> entry : added.entrySet()) {
-          zookeeperGroup.put(entry.getKey(), entry.getValue());
-        }
-      }
+      addOrUpdate(added);
+
       Map<String, Object> changed = result.getChanged();
-      if (changed != null) {
-        for (Map.Entry<String, Object> entry : changed.entrySet()) {
-          zookeeperGroup.put(entry.getKey(), entry.getValue());
-        }
-      }
-      if (!ignoreDeletesFromSource) {
-        Map<String, Object> deleted = result.getDeleted();
-        if (deleted != null) {
-          for (String name : deleted.keySet()) {
-            zookeeperGroup.remove(name);
-          }
-        }
+      addOrUpdate(changed);
+
+      if (!ignoreDeletesFromSource && result.getDeleted() != null) {
+        result.getDeleted().keySet().forEach(this::delete);
       }
     }
+  }
+
+  private void addOrUpdate(Map<String, Object> mapToUpdate) {
+    if (mapToUpdate != null) {
+      zookeeperGroup.putAll(mapToUpdate);
+    }
+  }
+
+  private void delete(String key) {
+    zookeeperGroup.remove(key);
   }
 }

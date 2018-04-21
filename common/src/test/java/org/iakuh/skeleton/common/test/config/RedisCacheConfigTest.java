@@ -2,6 +2,7 @@ package org.iakuh.skeleton.common.test.config;
 
 import static org.iakuh.skeleton.common.config.RedisCacheConfig.CACHE_TTL_10S;
 
+import java.util.concurrent.TimeUnit;
 import org.iakuh.skeleton.common.config.RedisCacheConfig;
 import org.iakuh.skeleton.test.BaseTest;
 import org.junit.After;
@@ -25,7 +26,7 @@ public class RedisCacheConfigTest extends BaseTest {
     cache.put(key, value);
     String getValue = cache.get(key, String.class);
     assertEquals(getValue, value);
-    Thread.sleep(10000);
+    TimeUnit.SECONDS.sleep(10);
     getValue = cache.get(key, String.class);
     assertNull(getValue);
   }
