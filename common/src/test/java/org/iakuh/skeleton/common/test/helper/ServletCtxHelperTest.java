@@ -1,36 +1,36 @@
-package org.iakuh.skeleton.common.test.util;
+package org.iakuh.skeleton.common.test.helper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.iakuh.skeleton.common.util.ServletContextUtil;
+import org.iakuh.skeleton.common.helper.ServletCtxHelper;
 import org.iakuh.skeleton.test.BaseTest;
 import org.junit.Test;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 @WebAppConfiguration
-public class ServletContextUtilTest extends BaseTest {
+public class ServletCtxHelperTest extends BaseTest {
 
   @Test
   public void testGetRequest() {
-    HttpServletRequest request = ServletContextUtil.getRequest();
+    HttpServletRequest request = ServletCtxHelper.getRequest();
     assertNotNull(request);
   }
   @Test
   public void testGetResponse() {
-    HttpServletResponse response = ServletContextUtil.getResponse();
+    HttpServletResponse response = ServletCtxHelper.getResponse();
   }
 
   @Test
   public void testGetSession() {
-    HttpSession session = ServletContextUtil.getSession();
+    HttpSession session = ServletCtxHelper.getSession();
     session.setAttribute("test", "pass");
     assertEquals("pass", session.getAttribute("test"));
   }
 
   @Test
   public void testGetSessionCreateFalse() {
-    HttpSession session = ServletContextUtil.getSession(false);
+    HttpSession session = ServletCtxHelper.getSession(false);
     assertNull(session);
   }
 }

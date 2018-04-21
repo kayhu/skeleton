@@ -12,7 +12,7 @@ import java.util.Collections;
 import org.iakuh.skeleton.api.config.RootConfig;
 import org.iakuh.skeleton.api.config.ServletConfig;
 import org.iakuh.skeleton.api.controller.ExampleUserController;
-import org.iakuh.skeleton.api.exception.checked.NotFoundException;
+import org.iakuh.skeleton.api.exception.NotFoundException;
 import org.iakuh.skeleton.api.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
@@ -70,7 +70,7 @@ public class ExceptionHandlerMappingTest {
   @Test
   public void testOnNotFoundException() throws Exception {
     when(userService.getUserById(any()))
-        .thenThrow(new NotFoundException("User not found"));
+        .thenThrow(new NotFoundException("error.user.not.found"));
 
     mockMvc.perform(get("/users/25"))
         .andExpect(status().isNotFound())
@@ -89,7 +89,7 @@ public class ExceptionHandlerMappingTest {
         .andExpect(status().isBadRequest())
         .andExpect(content().json("{\n"
             + "    \"code\": \"E_VALIDATION_FAILURE\",\n"
-            + "    \"message\": \"Invalid request object\",\n"
+            + "    \"message\": \"Object not valid\",\n"
             + "    \"details\": \"username should not be null\"\n"
             + "}"));
   }
@@ -102,9 +102,23 @@ public class ExceptionHandlerMappingTest {
     mockMvc.perform(get("/users/25"))
         .andExpect(status().isInternalServerError())
         .andExpect(content().json("{\n"
-            + "    \"code\": \"E_UNKNOWN_ERROR\",\n"
-            + "    \"message\": \"System unknown error\",\n"
-            + "    \"details\": \"Runtime exception error message.\"\n"
+            + "    \"code\": \"E_INTERNAL_SERVER_ERROR\",\n"
+            + "    \"message\": \"System unknown exception\",\n"
+            + "    \"details\": null\n"
+            + "}"));
+  }
+
+  @Test
+  public void testNoSuchMessageException() throws Exception {
+    when(userService.getUserById(any()))
+        .thenThrow(new NotFoundException("NoSuchMessageException"));
+
+    mockMvc.perform(get("/users/25"))
+        .andExpect(status().isNotFound())
+        .andExpect(content().json("{\n"
+            + "    \"code\": \"E_RESOURCE_NOT_FOUND\",\n"
+            + "    \"message\": \"NoSuchMessageException\",\n"
+            + "    \"details\": null\n"
             + "}"));
   }
 }

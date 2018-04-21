@@ -1,7 +1,7 @@
 package org.iakuh.skeleton.api.service.impl;
 
 import java.util.Objects;
-import org.iakuh.skeleton.api.exception.checked.NotFoundException;
+import org.iakuh.skeleton.api.exception.NotFoundException;
 import org.iakuh.skeleton.api.service.UserService;
 import org.iakuh.skeleton.common.model.vo.UserVo;
 import org.iakuh.skeleton.dao.rdb.entity.User;
@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     User user = userRepository.selectByPrimaryKey(id);
 
     if (Objects.isNull(user)) {
-      throw new NotFoundException("User not found");
+      throw new NotFoundException("error.user.not.found");
     }
 
     UserVo vo = new UserVo();

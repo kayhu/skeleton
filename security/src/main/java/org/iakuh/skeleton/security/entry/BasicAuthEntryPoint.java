@@ -24,6 +24,6 @@ public class BasicAuthEntryPoint extends BasicAuthenticationEntryPoint {
   public void commence(HttpServletRequest request, HttpServletResponse response,
       AuthenticationException authException)
       throws IOException, ServletException {
-    handlerExceptionResolver.resolveException(request, response, null, authException);
+    getHandlerExceptionResolver().resolveException(request, response, null, authException);
   }
 }

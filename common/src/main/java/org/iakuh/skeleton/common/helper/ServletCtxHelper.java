@@ -1,4 +1,4 @@
-package org.iakuh.skeleton.common.util;
+package org.iakuh.skeleton.common.helper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-public class ServletContextUtil {
+public class ServletCtxHelper {
 
   public static HttpServletRequest getRequest() {
     return getRequestAttributes().getRequest();

@@ -3,6 +3,7 @@ package org.iakuh.skeleton.common.error;
 import java.lang.reflect.Method;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.util.Assert;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.method.annotation.ExceptionHandlerMethodResolver;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,13 +25,12 @@ public class GenericExceptionHandlerResolver extends ExceptionHandlerExceptionRe
     this.exceptionHandlerMapping = exceptionHandlerMapping;
   }
 
+  @Override
   public void afterPropertiesSet() {
+    Assert.notNull(exceptionHandlerMapping, "exceptionHandlerMapping cannot be null");
     super.afterPropertiesSet();
-    if (exceptionHandlerMapping == null) {
-      exceptionHandlerMapping = new ExceptionHandlerMapping();
-    }
-    exceptionHandlerMethodResolver = new ExceptionHandlerMethodResolver(
-        exceptionHandlerMapping.getClass());
+    Class<?> hanlderType = exceptionHandlerMapping.getClass();
+    exceptionHandlerMethodResolver = new ExceptionHandlerMethodResolver(hanlderType);
   }
 
   @Override

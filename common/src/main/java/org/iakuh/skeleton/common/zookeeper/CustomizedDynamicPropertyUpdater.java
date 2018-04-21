@@ -18,12 +18,11 @@ public class CustomizedDynamicPropertyUpdater extends DynamicPropertyUpdater {
   @Override
   public void updateProperties(WatchedUpdateResult result, Configuration config,
       boolean ignoreDeletesFromSource) {
-    this.updateZooKeeperGroup(result, config, ignoreDeletesFromSource);
+    this.updateZooKeeperGroup(result, ignoreDeletesFromSource);
     super.updateProperties(result, config, ignoreDeletesFromSource);
   }
 
-  private void updateZooKeeperGroup(WatchedUpdateResult result, Configuration config,
-      boolean ignoreDeletesFromSource) {
+  private void updateZooKeeperGroup(WatchedUpdateResult result, boolean ignoreDeletesFromSource) {
     if (result == null || !result.hasChanges()) {
       return;
     }

@@ -1,6 +1,7 @@
 package org.iakuh.skeleton.common.test;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
@@ -79,14 +80,26 @@ public class ZookeeperGroupTest extends BaseTest {
   }
 
   @Test
-  public void testDynamicPropertyUpdater() throws Exception {
+  public void testPropertyAddedDeleted() throws Exception {
+    zookeeperClient.create().creatingParentsIfNeeded()
+        .forPath(rootPath + "/added", "1".getBytes("UTF-8"));
+    TimeUnit.SECONDS.sleep(1);
+    assertEquals("1", zookeeperGroup.get("added"));
+
+    zookeeperClient.delete().forPath(rootPath + "/added");
+    TimeUnit.SECONDS.sleep(1);
+    assertNull(zookeeperGroup.get("added"));
+  }
+
+  @Test
+  public void testPropertyChanged() throws Exception {
     zookeeperClient.setData().forPath(rootPath + "/dynamic", "1".getBytes("UTF-8"));
-    Thread.sleep(1000);
-    assertEquals("1",zookeeperGroup.get("dynamic"));
+    TimeUnit.SECONDS.sleep(1);
+    assertEquals("1", zookeeperGroup.get("dynamic"));
 
     zookeeperClient.setData().forPath(rootPath + "/dynamic", "2".getBytes("UTF-8"));
-    Thread.sleep(1000);
-    assertEquals("2",zookeeperGroup.get("dynamic"));
+    TimeUnit.SECONDS.sleep(1);
+    assertEquals("2", zookeeperGroup.get("dynamic"));
   }
 
   @After

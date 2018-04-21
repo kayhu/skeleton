@@ -50,7 +50,8 @@ public class ServletConfig extends WebMvcConfigurationSupport {
   protected void configureHandlerExceptionResolvers(
       List<HandlerExceptionResolver> exceptionResolvers) {
     GenericExceptionHandlerResolver exHandlerResolver = new GenericExceptionHandlerResolver();
-    exHandlerResolver.setExceptionHandlerMapping(new GlobalExceptionHandlerMapping());
+    exHandlerResolver.setExceptionHandlerMapping(
+        new GlobalExceptionHandlerMapping(getApplicationContext()));
 
     // Same logic as WebMvcConfigurationSupport.addDefaultHandlerExceptionResolvers() method
     exHandlerResolver.setContentNegotiationManager(mvcContentNegotiationManager());

@@ -1,6 +1,6 @@
 package org.iakuh.skeleton.api.service;
 
-import org.iakuh.skeleton.api.exception.checked.NotFoundException;
+import org.iakuh.skeleton.api.exception.NotFoundException;
 import org.iakuh.skeleton.common.model.vo.UserVo;
 import org.springframework.security.access.prepost.PreAuthorize;
 

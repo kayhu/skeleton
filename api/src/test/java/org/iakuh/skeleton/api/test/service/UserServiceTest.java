@@ -2,7 +2,7 @@ package org.iakuh.skeleton.api.test.service;
 
 import static org.mockito.Mockito.when;
 
-import org.iakuh.skeleton.api.exception.checked.NotFoundException;
+import org.iakuh.skeleton.api.exception.NotFoundException;
 import org.iakuh.skeleton.api.service.UserService;
 import org.iakuh.skeleton.api.service.impl.UserServiceImpl;
 import org.iakuh.skeleton.common.model.vo.UserVo;
