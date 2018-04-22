@@ -10,6 +10,7 @@ dependencies {
             'com.fasterxml.jackson.core:jackson-core',
             'com.fasterxml.jackson.core:jackson-databind',
             'com.fasterxml.jackson.core:jackson-annotations',
+            'io.dropwizard.metrics:metrics-servlets',
             rootProject.ext.dependencies['springfox-swagger2'],
             rootProject.ext.dependencies['springfox-swagger-ui'],
             project(':common'),

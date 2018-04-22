@@ -19,12 +19,13 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
     })
 @Import({
     CommonConfig.class,
+    MetricsConfig.class,
     RedisConfig.class,
     MybatisConfig.class})
 public class RootConfig {
 
   @Bean
-  public AppCtxHelper appCtxUtil() {
+  public AppCtxHelper appCtxHelper() {
     return new AppCtxHelper();
   }
 }

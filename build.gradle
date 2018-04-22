@@ -78,7 +78,9 @@ subprojects {
                 'org.projectlombok:lombok',
                 'org.apache.commons:commons-lang3',
                 'com.google.guava:guava',
-                'io.dropwizard.metrics:metrics-logback'
+                'org.slf4j:slf4j-api',
+                'org.slf4j:jcl-over-slf4j',
+                'ch.qos.logback:logback-classic'
 
         testCompile project(':test')
     }

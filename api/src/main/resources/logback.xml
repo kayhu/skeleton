@@ -58,6 +58,8 @@
     <appender-ref ref="file"/>
   </root>
 
+  <logger level="debug" name="org.iakuh.skeleton"/>
+
   <logger level="info" name="org.springframework"/>
   <logger level="info" name="org.springframework.beans"/>
 
