@@ -16,6 +16,7 @@ import com.codahale.metrics.servlets.HealthCheckServlet;
 import com.codahale.metrics.servlets.MetricsServlet;
 import com.codahale.metrics.servlets.PingServlet;
 import com.codahale.metrics.servlets.ThreadDumpServlet;
+import com.ryantenney.metrics.spring.config.annotation.MetricsConfigurationSupport;
 import java.util.Properties;
 import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ import org.springframework.web.servlet.mvc.Controller;
 import org.springframework.web.servlet.mvc.ServletWrappingController;
 
 @Configuration
-public class MetricsConfig implements ServletContextAware {
+public class MetricsConfig extends MetricsConfigurationSupport implements ServletContextAware {
 
   @Autowired
   @Qualifier("metricsRegistry")
@@ -124,5 +125,15 @@ public class MetricsConfig implements ServletContextAware {
   public void setServletContext(ServletContext servletContext) {
     servletContext.setAttribute(METRICS_REGISTRY, metricsRegistry);
     servletContext.setAttribute(HEALTH_CHECK_REGISTRY, healthCheckRegistry);
+  }
+
+  @Override
+  protected MetricRegistry getMetricRegistry() {
+    return metricsRegistry;
+  }
+
+  @Override
+  protected HealthCheckRegistry getHealthCheckRegistry() {
+    return healthCheckRegistry;
   }
 }

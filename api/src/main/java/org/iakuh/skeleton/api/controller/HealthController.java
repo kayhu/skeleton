@@ -1,5 +1,6 @@
 package org.iakuh.skeleton.api.controller;
 
+import com.codahale.metrics.annotation.Counted;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -18,6 +19,7 @@ public class HealthController {
   @ApiOperation(value = "检查服务状态", httpMethod = "GET")
   @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
   @RequestMapping(value = "/health", method = RequestMethod.GET)
+  @Counted(name = "health")
   public ResponseEntity health() {
     log.debug("I'm fine!");
     return new ResponseEntity<>(Collections.emptyMap(), HttpStatus.OK);
