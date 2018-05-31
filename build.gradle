@@ -64,11 +64,11 @@ subprojects {
 //        maven { url 'http://localhost:8081/repository/public' }
     }
 
-    // To override version in Gradle
-    // https://docs.spring.io/platform/docs/Brussels-SR6/reference/htmlsingle/#getting-started-overriding-versions
+    // Overriding Spring IO Platform’s dependency management
+    // https://docs.spring.io/platform/docs/Cairo-RELEASE/reference/htmlsingle/#getting-started-overriding-versions
     dependencyManagement {
         imports {
-            // https://docs.spring.io/platform/docs/Brussels-SR6/reference/htmlsingle/#appendix
+            // https://docs.spring.io/platform/docs/Cairo-RELEASE/reference/htmlsingle/#appendix-dependency-versions
             mavenBom 'io.spring.platform:platform-bom:Cairo-RELEASE'
         }
     }
